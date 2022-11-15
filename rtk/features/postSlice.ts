@@ -16,11 +16,14 @@ export const postsSlice = createSlice({
     reducers: {
         fetchPosts: (state, action: PayloadAction<any>) => {
             state.value = action.payload
+        },
+        deletePost: (state, action: PayloadAction<any>) => {
+            state.value = state.value.filter((post: any) => post.id !== action.payload)
         }
     }
 })
 
-export const { fetchPosts } = postsSlice.actions
+export const { fetchPosts, deletePost } = postsSlice.actions
 
 export const selectPosts = (state: RootState) => state.posts.value
 
