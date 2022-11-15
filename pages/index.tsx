@@ -6,8 +6,11 @@ import styles from '../styles/Home.module.css';
 
 export default function Home({ postsWithComments } : any) {
   const dispatch = useAppDispatch();
-  dispatch(fetchPosts(postsWithComments));
   const posts = useAppSelector((state) => state.posts.value);
+  // only fetch posts if there are none
+  if(!posts.length) {
+    dispatch(fetchPosts(postsWithComments));
+  }
   return (
     <div className={styles.container}>
       <Head>
