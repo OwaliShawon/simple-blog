@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 import { counterSlice } from '../features/counterSlice';
+import { postsSlice } from '../features/postSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterSlice.reducer,
+    posts: postsSlice.reducer,
   },
 })
 
