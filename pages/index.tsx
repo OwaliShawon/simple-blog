@@ -1,3 +1,5 @@
+import { Divider, Row } from 'antd';
+import 'antd/dist/antd.css';
 import Head from 'next/head';
 import Post from '../components/Post';
 import { useAppDispatch, useAppSelector } from '../rtk/app/hooke';
@@ -20,9 +22,12 @@ export default function Home({ postsWithComments } : any) {
       </Head>
 
       <main className={styles.main}>
-        {
-          posts.map((post: any) => <Post key={post.id} post={post}></Post>)
-        }
+        <Divider>All Blogs</Divider>
+        <Row justify="space-evenly" align="top">
+            {
+              posts.map((post: any) => <Post key={post.id} post={post}></Post>)
+            }
+        </Row> 
       </main>
 
       <footer className={styles.footer}>
