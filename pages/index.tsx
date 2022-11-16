@@ -1,4 +1,4 @@
-import { Divider, Row } from 'antd';
+import { Divider, Row, Spin } from 'antd';
 import 'antd/dist/antd.css';
 import Head from 'next/head';
 import Post from '../components/Post';
@@ -9,6 +9,7 @@ import styles from '../styles/Home.module.css';
 export default function Home() {
   const dispatch = useAppDispatch();
   const posts = useAppSelector((state) => state.posts.value);
+  const isLoading = useAppSelector((state) => state.posts.loading);
   // only fetch posts if there are none
   if(!posts.length) {
     dispatch(fetchPosts());
@@ -21,6 +22,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+    {
+      isLoading &&  <div className="spinner">
+      <Spin />
+    </div>
+    }
       <main className={styles.main}>
         <Divider>All Blogs</Divider>
         <Row justify="space-evenly" align="top">
