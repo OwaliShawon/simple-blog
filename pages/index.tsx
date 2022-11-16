@@ -3,15 +3,15 @@ import 'antd/dist/antd.css';
 import Head from 'next/head';
 import Post from '../components/Post';
 import { useAppDispatch, useAppSelector } from '../rtk/app/hooke';
-import { fetchPosts } from '../rtk/features/postSlice';
+import fetchPosts from '../rtk/thunk/fetchPostThunk';
 import styles from '../styles/Home.module.css';
 
-export default function Home({ postsWithComments } : any) {
+export default function Home() {
   const dispatch = useAppDispatch();
   const posts = useAppSelector((state) => state.posts.value);
   // only fetch posts if there are none
   if(!posts.length) {
-    dispatch(fetchPosts(postsWithComments));
+    dispatch(fetchPosts());
   }
   return (
     <div className={styles.container}>
@@ -36,30 +36,30 @@ export default function Home({ postsWithComments } : any) {
   )
 }
 
-// This gets called on every request
-export async function getServerSideProps() {
-  // Fetch data from external API
-  const resPosts = await fetch(
-    `https://jsonplaceholder.typicode.com/posts?_limit=20`
-  );
-  const resComments = await fetch(
-    `https://jsonplaceholder.typicode.com/comments`
-  );
-  const resUsers = await fetch(`https://jsonplaceholder.typicode.com/users`);
+// // This gets called on every request
+// export async function getServerSideProps() {
+//   // Fetch data from external API
+//   const resPosts = await fetch(
+//     `https://jsonplaceholder.typicode.com/posts?_limit=20`
+//   );
+//   const resComments = await fetch(
+//     `https://jsonplaceholder.typicode.com/comments`
+//   );
+//   const resUsers = await fetch(`https://jsonplaceholder.typicode.com/users`);
 
-  const posts: any = await resPosts.json();
-  const comments: any = await resComments.json();
-  const users: any = await resUsers.json();
+//   const posts: any = await resPosts.json();
+//   const comments: any = await resComments.json();
+//   const users: any = await resUsers.json();
 
-    // filtering posts by userId and related comments
-    const postsWithComments: any = posts.map((post: any) => {
-      return {
-        ...post,
-        comments: comments.filter((comment: any) => comment.postId === post.id),
-        author: users.find((user: any) => user.id === post.userId),
-      };
-    });
+//     // filtering posts by userId and related comments
+//     const postsWithComments: any = posts.map((post: any) => {
+//       return {
+//         ...post,
+//         comments: comments.filter((comment: any) => comment.postId === post.id),
+//         author: users.find((user: any) => user.id === post.userId),
+//       };
+//     });
 
-  // Pass data to the page via props
-  return { props: { postsWithComments } };
-}
+//   // Pass data to the page via props
+//   return { props: { postsWithComments } };
+// }
